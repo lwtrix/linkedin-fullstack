@@ -11,6 +11,8 @@ server.use(express.json());
 
 //**************************** ENDPOINTS **************************** */
 server.use("/users", usersRouter);
+server.use('/posts', postsRouter)
+
 
 //************************** MONGODB CONNECT ************************** */
 mongoose.set('strictQuery', true);
