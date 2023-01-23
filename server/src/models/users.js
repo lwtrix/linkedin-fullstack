@@ -10,8 +10,8 @@
         export default model('Experience', experienceSchema)
 */
 
-import mongoose, { model } from "mongoose";
-const { Schema, modal } = mongoose;
+import mongoose from "mongoose";
+const { Schema, model } = mongoose;
 
 const usersSchema = new Schema(
   {
