@@ -2,6 +2,7 @@ import express from "express";
 import listEndpoints from "express-list-endpoints";
 import mongoose from "mongoose";
 import usersRouter from "./api/usersRouter.js";
+import postsRouter from "./api/postsRouter.js";
 
 const port = process.env.PORT;
 
