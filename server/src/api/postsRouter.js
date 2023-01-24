@@ -2,9 +2,21 @@ import express, { json } from "express";
 import createHttpError from "http-errors";
 import Posts from "../models/posts.js";
 import UsersModel from "../models/users.js";
+import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 
 const loggedUser = process.env.LOGGED_USER;
 const postsRouter = express.Router();
+
+const cloudUploader = multer({
+  storage: new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: "linkedin/posts",
+    },
+  }),
+}).single("image");
 
 postsRouter.post("/", async (req, res, next) => {
   try {
@@ -101,6 +113,27 @@ postsRouter.delete("/:id", async (req, res, next) => {
       }
     } else {
       res.status(401).send({ message: "This post belongs to other user" });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+postsRouter.post("/:id/upload/image", cloudUploader, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const url = req.file.path;
+    const updatedPost = await Posts.findByIdAndUpdate(
+      id,
+      { image: url },
+      { new: true }
+    );
+
+    if(updatedPost) {
+      res.send(updatedPost)
+    } else {
+      next(createHttpError(400, `Error with uploading image to post`))
     }
   } catch (error) {
     next(error);
