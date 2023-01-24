@@ -1,58 +1,167 @@
 import express from "express";
-import experienceModel from "./model.js";
+import UsersModel from "../users/model.js";
 import createHttpError from "http-errors";
-import q2m from "query-to-mongo";
+import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { v2 as cloudinary } from "cloudinary";
+import json2csv from "json2csv";
+import { pipeline } from "stream";
 
 const experiencesRouter = express.Router();
 
-// experience
+const cloudinaryUploader = multer({
+  storage: new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: "build-week/experience-imgs",
+    },
+  }),
+}).single("image");
 
-experiencesRouter.experience("/", async (req, res, next) => {
+experiencesRouter.get("/:userId/experiences", async (req, res, next) => {
   try {
-    const newExperience = new experienceModel(req.body);
-    const { _id } = await newExperience.save();
-    res.status(201).send({ _id });
+    const user = await UsersModel.findById(req.params.userId);
+    if (user) {
+      if (user.experiences.length === 0) {
+        res.send(`User ${user.username} has no experiences`);
+      } else {
+        res.send(user.experiences);
+      }
+    } else {
+      next(
+        createHttpError(404, `user with id ${req.params.userId} not found!`)
+      );
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+experiencesRouter.get("/:userId/experiences/csv", async (req, res, next) => {
+  try {
+    const source = await UsersModel.findById(req.params.userId);
+    if (source) {
+      if (source.experiences.length === 0) {
+        res.send(`User ${source.username} has no experiences`);
+      } else {
+        res.setHeader(
+          "Content-Disposition",
+          "attachment; filename=experiences.csv"
+        );
+        const transform = new json2csv.Transform({
+          fields: ["_id", "role", "company"],
+        });
+        const destination = res;
+        pipeline(source, transform, destination, (err) => {
+          if (err) console.log(err);
+        });
+        res.send();
+      }
+    } else {
+      next(
+        createHttpError(404, `user with id ${req.params.userId} not found!`)
+      );
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+experiencesRouter.get("/:userId/experiences/:expId", async (req, res, next) => {
+  try {
+    const user = await UsersModel.findById(req.params.userId);
+
+    if (user) {
+      const selectedExperience = user.experiences.find(
+        (experience) => experience._id.toString() === req.params.expId // You CANNOT compare a string(req.params.productId) with an ObjectId (product._id) --> you have to either convert _id into string or ProductId into ObjectId
+      );
+      // console.log(user.experiences)
+      if (selectedExperience) {
+        res.send(selectedExperience);
+      } else {
+        next(
+          createHttpError(
+            404,
+            `experience with id ${req.body.expId} not found!`
+          )
+        );
+      }
+    } else {
+      next(
+        createHttpError(404, `user with id ${req.params.userId} not found!`)
+      );
+    }
   } catch (error) {
     next(error);
   }
 });
 
-// GET
+experiencesRouter.post(
+  "/:userId/experiences/:expId/picture",
+  cloudinaryUploader,
+  async (req, res, next) => {
+    try {
+      const experienceImage = req.file.path;
+      const user = await UsersModel.findById(req.params.userId);
+      if (user) {
+        const index = user.experiences.findIndex(
+          (experience) => experience._id.toString() === req.params.expId
+        );
 
-experiencesRouter.get("/", async (req, res, next) => {
-  try {
-    const mongoQuery = q2m(req.query);
-    const total = await experienceModel.countDocuments(mongoQuery.criteria);
-    console.log(total);
-    const experiences = await experienceModel
-      .find(mongoQuery.criteria, mongoQuery.options.fields)
-      .sort(mongoQuery.options.sort)
-      .skip(mongoQuery.options.skip)
-      .limit(mongoQuery.options.limit);
-    res.status(200).send({
-      links: mongoQuery.links(total),
-      total,
-      totalPages: Math.ceil(total / mongoQuery.options.limit),
-      experiences,
-    });
-  } catch (error) {
-    next(error);
+        if (index !== -1) {
+          console.log({ ...user.experiences[index] });
+          user.experiences[index] = {
+            ...user.experiences[index].toObject(),
+            image: experienceImage,
+          };
+          await user.save();
+          res.send(user);
+        } else {
+          next(
+            createHttpError(
+              404,
+              `experience with id ${req.params.expId} not found!`
+            )
+          );
+        }
+      } else {
+        next(createHttpError(404, `experience not found!`));
+      }
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-// GET SPECIFIC
-
-experiencesRouter.get("/:experienceId", async (req, res, next) => {
+experiencesRouter.post("/:userId/experiences", async (req, res, next) => {
   try {
-    const experience = await experienceModel.findById(req.params.experienceId);
+    const user = await UsersModel.findById(req.params.userId);
+    if (user) {
+      const experienceToInsert = {
+        ...req.body,
+        createdAt: new Date(),
+        image: "",
+      };
+      console.log("Experience TO Insert: ", experienceToInsert);
 
-    if (experience) {
-      res.send(experience);
+      const updatedUser = await UsersModel.findByIdAndUpdate(
+        req.params.userId, // WHO
+        { $push: { experiences: experienceToInsert } }, // HOW
+        { new: true, runValidators: true } // OPTIONS
+      );
+      if (updatedUser) {
+        res.send(updatedUser);
+      } else {
+        next(
+          createHttpError(404, `User with id ${req.params.userId} not found!`)
+        );
+      }
     } else {
       next(
         createHttpError(
           404,
-          `experience with id ${req.params.experienceId} not found`
+          `User with id ${req.params.userId} not found in request!`
         )
       );
     }
@@ -61,51 +170,57 @@ experiencesRouter.get("/:experienceId", async (req, res, next) => {
   }
 });
 
-// PUT
-
-experiencesRouter.put("/:experienceId", async (req, res, next) => {
+experiencesRouter.put("/:userId/experiences/:expId", async (req, res, next) => {
   try {
-    const updatedexperience = await experienceModel.findByIdAndUpdate(
-      req.params.experienceId,
-      req.body,
-      { new: true, runValidators: true }
-    );
+    const update = req.body;
+    const user = await UsersModel.findById(req.params.userId);
 
-    if (updatedexperience) {
-      res.send(updatedexperience);
-    } else {
-      next(
-        createHttpError(
-          404,
-          `experience with id ${req.params.experienceId} not found`
-        )
+    if (user) {
+      console.log("user found");
+      const index = user.experiences.findIndex(
+        (experience) => experience._id.toString() === req.params.expId
       );
+      if (index !== -1) {
+        user.experiences[index] = {
+          ...user.experiences[index].toObject(),
+          ...update,
+          updatedAt: new Date(),
+        };
+
+        await user.save();
+        res.send(user);
+      }
+    } else {
+      next(createHttpError(404, `experience ${req.params.expId} not found`));
     }
   } catch (error) {
     next(error);
   }
 });
 
-// DELETE
-
-experiencesRouter.delete("/:experienceId", async (req, res, next) => {
-  try {
-    const deletedexperience = await experienceModel.findByIdAndDelete(
-      req.params.experienceId
-    );
-    if (deletedexperience) {
-      res.status(204).send();
-    } else {
-      next(
-        createHttpError(
-          404,
-          `experience with id ${req.params.experienceId} not found`
-        )
+experiencesRouter.delete(
+  "/:userId/experiences/:expId",
+  async (req, res, next) => {
+    try {
+      const updatedExperience = await UsersModel.findByIdAndUpdate(
+        req.params.userId, // WHO
+        { $pull: { experiences: { _id: req.params.expId } } }, // HOW
+        { new: true } // OPTIONS
       );
+      if (updatedExperience) {
+        res.send(updatedExperience);
+      } else {
+        next(
+          createHttpError(
+            404,
+            `experience with id ${req.params.userId} not found!`
+          )
+        );
+      }
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 export default experiencesRouter;
