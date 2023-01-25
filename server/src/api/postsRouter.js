@@ -77,22 +77,16 @@ postsRouter.put("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const foundPost = await Posts.findById(id).populate("user");
+    const updatedPost = await Posts.findByIdAndUpdate(
+      id,
+      { ...req.body },
+      { new: true, runValidators: true }
+    );
 
-    if (foundPost.user._id.toString() === loggedUser) {
-      const updatedPost = await Posts.findByIdAndUpdate(
-        id,
-        { ...req.body },
-        { new: true, runValidators: true }
-      );
-
-      if (updatedPost) {
-        res.status(201).send(updatedPost);
-      } else {
-        next(createHttpError(401, `Error with updating post with id: ${id}`));
-      }
+    if (updatedPost) {
+      res.status(201).send(updatedPost);
     } else {
-      res.status(401).send({ message: "This post belongs to other user" });
+      next(createHttpError(401, `Error with updating post with id: ${id}`));
     }
   } catch (error) {
     next(error);
@@ -102,17 +96,12 @@ postsRouter.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const foundPost = await Posts.findById(id).populate("user");
-    if (foundPost.user._id.toString() === loggedUser) {
-      const deleted = await Posts.findByIdAndDelete(id);
+    const deleted = await Posts.findByIdAndDelete(id);
 
-      if (deleted) {
-        res.status(200).send({ message: "Post deleted with success" });
-      } else {
-        next(createHttpError(401, `Error deleting post with id: ${id}`));
-      }
+    if (deleted) {
+      res.status(200).send({ message: "Post deleted with success" });
     } else {
-      res.status(401).send({ message: "This post belongs to other user" });
+      next(createHttpError(401, `Error deleting post with id: ${id}`));
     }
   } catch (error) {
     next(error);
@@ -130,10 +119,10 @@ postsRouter.post("/:id/upload/image", cloudUploader, async (req, res, next) => {
       { new: true }
     );
 
-    if(updatedPost) {
-      res.send(updatedPost)
+    if (updatedPost) {
+      res.send(updatedPost);
     } else {
-      next(createHttpError(400, `Error with uploading image to post`))
+      next(createHttpError(400, `Error with uploading image to post`));
     }
   } catch (error) {
     next(error);
