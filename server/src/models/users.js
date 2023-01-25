@@ -13,7 +13,7 @@ const usersSchema = new Schema(
     image: { type: String, required: [true, "Please provide image"] },
     username: { type: String, required: [true, "Please provide username"], unique: true
     },
-    experience: { type: Schema.Types.ObjectId, ref: "Experience" }
+    experience: [{ type: Schema.Types.ObjectId, ref: "Experience" }]
   },
   {
     timestamps: true

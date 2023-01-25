@@ -1,5 +1,6 @@
 import express from "express";
-import UsersModel from "../users/model.js";
+import UsersModel from "../models/users.js";
+import ExperiencesModel from '../models/experiences.js'
 import createHttpError from "http-errors";
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
@@ -18,14 +19,15 @@ const cloudinaryUploader = multer({
   }),
 }).single("image");
 
-experiencesRouter.get("/:userId/experiences", async (req, res, next) => {
+experiencesRouter.get("/:userId", async (req, res, next) => {
   try {
-    const user = await UsersModel.findById(req.params.userId);
+    const { userId } = req.params
+    const user = await (await UsersModel.findById(userId)).populate('experience');
     if (user) {
-      if (user.experiences.length === 0) {
-        res.send(`User ${user.username} has no experiences`);
+      if (user.experience.length) {
+        res.send(user.experience);
       } else {
-        res.send(user.experiences);
+        res.send(`User ${user.username} has no experiences`);
       }
     } else {
       next(
@@ -33,29 +35,33 @@ experiencesRouter.get("/:userId/experiences", async (req, res, next) => {
       );
     }
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });
-experiencesRouter.get("/:userId/experiences/csv", async (req, res, next) => {
+experiencesRouter.get("/:userId/download/csv", async (req, res, next) => {
   try {
-    const source = await UsersModel.findById(req.params.userId);
-    if (source) {
-      if (source.experiences.length === 0) {
-        res.send(`User ${source.username} has no experiences`);
-      } else {
+    const { userId } = req.params
+    const user = await UsersModel.findById(userId).populate('experience');
+    if (user) {
+      if (user.experience.length) {
+
         res.setHeader(
           "Content-Disposition",
           "attachment; filename=experiences.csv"
         );
+
+        const source = JSON.stringify(user.experience)
+        
         const transform = new json2csv.Transform({
-          fields: ["_id", "role", "company"],
+          fields: ["area", "role", "company", "description"],
         });
         const destination = res;
         pipeline(source, transform, destination, (err) => {
           if (err) console.log(err);
+          else console.log('CSV conversion with success')
         });
-        res.send();
+      } else {
+        res.status(204).send(`User with id: ${userId} does not have any experiences added yet`)
       }
     } else {
       next(
@@ -63,20 +69,18 @@ experiencesRouter.get("/:userId/experiences/csv", async (req, res, next) => {
       );
     }
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });
 
-experiencesRouter.get("/:userId/experiences/:expId", async (req, res, next) => {
+experiencesRouter.get("/:userId/:expId", async (req, res, next) => {
   try {
-    const user = await UsersModel.findById(req.params.userId);
+    const user = await UsersModel.findById(req.params.userId).populate('experience');
 
     if (user) {
-      const selectedExperience = user.experiences.find(
+      const selectedExperience = user.experience.find(
         (experience) => experience._id.toString() === req.params.expId // You CANNOT compare a string(req.params.productId) with an ObjectId (product._id) --> you have to either convert _id into string or ProductId into ObjectId
       );
-      // console.log(user.experiences)
       if (selectedExperience) {
         res.send(selectedExperience);
       } else {
@@ -134,29 +138,19 @@ experiencesRouter.post(
   }
 );
 
-experiencesRouter.post("/:userId/experiences", async (req, res, next) => {
+experiencesRouter.post("/:userId", async (req, res, next) => {
   try {
     const user = await UsersModel.findById(req.params.userId);
     if (user) {
-      const experienceToInsert = {
-        ...req.body,
-        createdAt: new Date(),
-        image: "",
-      };
-      console.log("Experience TO Insert: ", experienceToInsert);
+      const newExperience = new ExperiencesModel({...req.body})
+      newExperience.startDate = new Date()
+      newExperience.endDate = new Date()
+      await newExperience.save()
 
-      const updatedUser = await UsersModel.findByIdAndUpdate(
-        req.params.userId, // WHO
-        { $push: { experiences: experienceToInsert } }, // HOW
-        { new: true, runValidators: true } // OPTIONS
-      );
-      if (updatedUser) {
-        res.send(updatedUser);
-      } else {
-        next(
-          createHttpError(404, `User with id ${req.params.userId} not found!`)
-        );
-      }
+      user.experience.push(newExperience)
+      user.save()
+
+      res.send(user)
     } else {
       next(
         createHttpError(
