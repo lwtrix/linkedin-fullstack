@@ -10,8 +10,11 @@ const usersSchema = new Schema(
     bio: { type: String, required: [true, "Please provide bio"] },
     title: { type: String, required: [true, "Please provide title"] },
     area: { type: String, required: [true, "Please provide area"] },
-    image: { type: String, required: [true, "Please provide image"] },
-    username: { type: String, required: [true, "Please provide username"], unique: true
+    image: { type: String, default: "" },
+    username: {
+      type: String,
+      required: [true, "Please provide username"],
+      unique: true
     },
     experience: { type: Schema.Types.ObjectId, ref: "Experience" }
   },
