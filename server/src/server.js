@@ -1,6 +1,7 @@
 import express from "express";
 import listEndpoints from "express-list-endpoints";
 import mongoose from "mongoose";
+import profileRouter from "./api/profileRouter.js";
 import usersRouter from "./api/usersRouter.js";
 import {
   badRequestHander,
@@ -18,6 +19,7 @@ server.use(express.json());
 
 //**************************** ENDPOINTS **************************** */
 server.use("/users", usersRouter);
+server.use("/profile", profileRouter)
 server.use('/posts', postsRouter)
 
 
