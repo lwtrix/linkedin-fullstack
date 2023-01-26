@@ -109,9 +109,13 @@ commentsRouter.put("/:postId/:commId", async (req, res, next) => {
     next(error);
   }
 });
-commentsRouter.delete("/:commId", async (req, res, next) => {
+commentsRouter.delete("/:postId/:commId", async (req, res, next) => {
   try {
-    const { commId } = req.params;
+    const { commId, postId } = req.params;
+    const post = await Posts.findById(postId).populate('comments', '_id')
+console.log(post)
+    post.comments = post.comments.filter(comm => comm._id.toString() !== commId)
+    await post.save()
     const comment = await Comments.findByIdAndDelete(commId);
 
     if (comment) {
