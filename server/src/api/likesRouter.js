@@ -63,8 +63,8 @@ likesRouter.put("/:postId", async (req, res, next) => {
         like.user = user;
         post.likes.push(like);
 
-        like.save();
-        post.save();
+        await like.save();
+        await post.save();
 
         res
           .status(200)

@@ -58,8 +58,8 @@ commentsRouter.post("/:postId", async (req, res, next) => {
         post.comments.push(comment);
 
         if (comment) {
-          comment.save();
-          post.save();
+          await comment.save();
+          await post.save();
 
           res.send(comment);
         } else {
