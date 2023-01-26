@@ -10,11 +10,13 @@ import {
 } from "./errorHandlers.js";
 import postsRouter from "./api/postsRouter.js";
 import experiencesRouter from "./api/experiencesRouter.js";
+import cors from 'cors'
 
 const port = process.env.PORT;
 
 const server = express();
 
+server.use(cors())
 server.use(express.json());
 
 //**************************** ENDPOINTS **************************** */
