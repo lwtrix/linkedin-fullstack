@@ -1,0 +1,74 @@
+.prof-banners {
+    display: flex;
+    margin: 25px 0;
+    padding-bottom: 5px;
+    width: 90%;
+    margin-left: 25px;
+    overflow: auto;
+}
+
+.prof-banners::-webkit-scrollbar {
+    margin-top: 5px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+.prof-banners::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    background-color: #777;
+}
+
+.prof-banners .banner {
+    background-color: #e9e5df;
+    border-radius: 10px;
+    margin-right: 15px;
+    flex: 0 0 45%;
+    position: relative;
+}
+
+.prof-banners .banner .edit-btn {
+    position: absolute;
+    width: 30px;
+    top: 10px;
+    border-radius: 50%;
+    padding: 8px;
+    right: 10px;
+    transition: .2s;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.prof-banners .banner .edit-btn .edit-icon {
+    display: block;
+    margin: auto;
+    font-size: 14px;
+}
+
+.prof-banners .banner .edit-btn:hover {
+    background-color: #ccc;
+}
+
+.prof-banners .banner .text-container {
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 30px;
+    line-height: 18px;
+}
+
+.prof-banners .banner .text-container .title {
+    font-weight: 600;
+}
+
+.prof-banners .banner .text-container .details {
+    text-decoration: none;
+    color: #0a66c2;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.prof-banners .banner p {
+    margin: 0;
+    font-size: 14px;
+}

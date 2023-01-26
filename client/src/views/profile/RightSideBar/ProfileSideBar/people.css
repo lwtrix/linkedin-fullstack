@@ -1,0 +1,16 @@
+.peopleBody {
+  border-radius: 15px;
+  width: 100%;
+  padding: 2.5vh;
+  background-color: white;
+  border: solid rgb(212, 212, 212) 1px;
+}
+
+.peopleBody p {
+  font-size: 1.1rem;
+}
+
+.someBorder {
+  padding-top: 1rem;
+  border-top: 1px solid rgb(216, 215, 215);
+}
