@@ -2,15 +2,18 @@ import express from "express";
 import listEndpoints from "express-list-endpoints";
 import mongoose from "mongoose";
 import usersRouter from "./api/usersRouter.js";
+import cors from 'cors'
+
 import {
   badRequestHander,
   unauthorizedHandler,
   notFoundHandler,
   genericErrorHandler
 } from "./errorHandlers.js";
+
 import postsRouter from "./api/postsRouter.js";
 import experiencesRouter from "./api/experiencesRouter.js";
-import cors from 'cors'
+import commentsRouter from "./api/commentsRouter.js";
 
 const port = process.env.PORT;
 
@@ -23,6 +26,7 @@ server.use(express.json());
 server.use("/users", usersRouter);
 server.use('/posts', postsRouter)
 server.use('/experiences', experiencesRouter)
+server.use('/comments', commentsRouter)
 
 
 //**************************** ERROR HANDLERS **************************** */
