@@ -5,13 +5,11 @@ import { FiEdit2 } from "react-icons/fi";
 import { ProffesionalBanners } from "./ProffesionalBanners";
 
 import { useState } from "react";
-// import { useSelector } from "react-redux";
 import { EditProfileModal } from "./EditProfileModal";
 import EditUserProfileImage from "./EditUserProfileImage";
 import "./pictureUploader.css";
 
 export const ProfileInformation = ({ user }) => {
-  // const { user: currentUser } = useSelector((state) => state.user);
   const [isOtherUser, setIsOtherUser] = useState(false);
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -19,15 +17,11 @@ export const ProfileInformation = ({ user }) => {
   const handleClose = () => setShowEditModal(false);
   const handleShow = () => setShowEditModal(true);
 
-  // useEffect(() => {
-  //   if (user && currentUser) {
-  //     if (currentUser._id !== user._id) {
-  //       setIsOtherUser(true);
-  //     } else {
-  //       setIsOtherUser(false);
-  //     }
-  //   }
-  // }, [user, currentUser]);
+  useEffect(() => {
+    if (user) {
+      setIsOtherUser(false);
+    }
+  }, [user]);
 
   return (
     <>

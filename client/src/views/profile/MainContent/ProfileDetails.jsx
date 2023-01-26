@@ -1,62 +1,33 @@
 import React, { useEffect, useState } from "react";
 import "./profile-details.css";
-// import { ExperienceSection } from "./ExperienceSection";
+import { ExperienceSection } from "./ExperienceSection";
 import { ProfileInformation } from "./ProfileDetails/ProfileInformation";
 import { useParams } from "react-router-dom";
-// import { useSelector } from "react-redux";
 
-export const ProfileDetails = ({otherProfile}) => {
+export const ProfileDetails = ({}) => {
   const params = useParams();
   const [user, setUser] = useState(null);
-  // const { user: currentUser } = useSelector((state) => state.user);
 
   const getUser = async () => {
-    const options = {
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk4M2ZkMDQwNWJkYTAwMTUwOTE4NDEiLCJpYXQiOjE2NzA5MjIxOTIsImV4cCI6MTY3MjEzMTc5Mn0.HboxcDkCT7oe0t-xsSrEFfXdJbKvdPnGhJVNYl9t1A0",
-      },
-    };
-
     const res = await fetch(
-      `https://striveschool-api.herokuapp.com/api/profile/${params.id}`,
-      options
+      "http://localhost:3001/users/63ce67c5b87b8603d6e1fb31"
     );
-    const userData = await res.json();
-    setUser(userData);
+    const data = await res.json();
+    setUser(data);
   };
 
-  // useEffect(() => {
-  //   if(otherProfile) {
-  //     if (params.id) {
-  //       console.log('in here')
-  //       getUser();
-  //     } 
-  //   } else {
-  //     // console.log(currentUser)
-  //     // setUser(currentUser)
-  //   }
-
-  // }, [otherProfile, params.id, currentUser]);
+  useEffect(() => {
+    getUser();
+  }, [user]);
 
   return (
     <div className="profile-details">
-      {user ? (
-        user._id ? (
-        // user._id !== currentUser?._id ? (
-
-          <>
-            <ProfileInformation user={user} />
-            {/* <ExperienceSection userId={user._id}/> */}
-          </>
-        ) : (
-          <>
-            <ProfileInformation user={user} />
-            {/* <ExperienceSection userId={user._id}/> */}
-          </>
-        )
-      ) : null}
-      
+      {user?._id && (
+        <>
+          <ProfileInformation user={user} />
+          <ExperienceSection userId={user._id}/>
+        </>
+      )}
     </div>
   );
 };

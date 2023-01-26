@@ -2,6 +2,7 @@ import express from "express";
 import listEndpoints from "express-list-endpoints";
 import mongoose from "mongoose";
 import usersRouter from "./api/usersRouter.js";
+import cors from "cors"
 import {
   badRequestHander,
   unauthorizedHandler,
@@ -14,8 +15,8 @@ import experiencesRouter from "./api/experiencesRouter.js";
 const port = process.env.PORT;
 
 const server = express();
-
 server.use(express.json());
+server.use(cors())
 
 //**************************** ENDPOINTS **************************** */
 server.use("/users", usersRouter);
