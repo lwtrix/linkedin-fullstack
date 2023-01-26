@@ -6,7 +6,7 @@ import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 
-const loggedUser = process.env.LOGGED_USER;
+const loggedUser = '63ce67c5b87b8603d6e1fb31';
 const postsRouter = express.Router();
 
 const cloudUploader = multer({

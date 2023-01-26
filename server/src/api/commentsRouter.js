@@ -5,13 +5,17 @@ import Posts from "../models/posts.js";
 import { Types } from "mongoose";
 
 const commentsRouter = express.Router();
-const loggedUser = process.env.LOGGED_USER;
+const loggedUser = '63ce67c5b87b8603d6e1fb31';
 
 commentsRouter.get("/:postId", async (req, res, next) => {
   try {
-    const { comments } = await Posts.findById(req.params.postId).populate(
-      "comments"
-    );
+    const { comments } = await Posts.findById(req.params.postId).populate({
+      path: "comments",
+      populate: {
+        path: "user",
+        select: { _id: 1, username: 1, title: 1, image: 1 },
+      },
+    });
     if (comments.length) {
       res.send(comments);
     } else {
@@ -111,7 +115,9 @@ commentsRouter.delete("/:commId", async (req, res, next) => {
     const comment = await Comments.findByIdAndDelete(commId);
 
     if (comment) {
-      res.status(200).json({message: `Comment with id: ${commId} deleted with success`});
+      res
+        .status(200)
+        .json({ message: `Comment with id: ${commId} deleted with success` });
     } else {
       res
         .status(200)
