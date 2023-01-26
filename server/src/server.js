@@ -14,6 +14,7 @@ import {
 import postsRouter from "./api/postsRouter.js";
 import experiencesRouter from "./api/experiencesRouter.js";
 import commentsRouter from "./api/commentsRouter.js";
+import likesRouter from "./api/likesRouter.js";
 
 const port = process.env.PORT;
 
@@ -27,6 +28,7 @@ server.use("/users", usersRouter);
 server.use('/posts', postsRouter)
 server.use('/experiences', experiencesRouter)
 server.use('/comments', commentsRouter)
+server.use('/likes', likesRouter)
 
 
 //**************************** ERROR HANDLERS **************************** */
