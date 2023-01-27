@@ -24,10 +24,6 @@ import { useNavigate } from "react-router-dom";
 // import { getUserProfile } from "../../redux/actions";
 import { SearchResults } from "./Search/SearchResults";
 
-const NavBar = () => {
-import { useSelector, useDispatch } from "react-redux";
-import { getUserProfile } from "../../redux/actions";
-import { SearchResults } from "./Search/SearchResults";
 export const NavBar = () => {
   const [showSearch, setShowSearch] = useState(false);
   let [timeoutId, setTimeoutId] = useState(null);
@@ -59,7 +55,7 @@ export const NavBar = () => {
         const users = await res.json();
 
         const filteredUsers = users.filter(
-          (user) => user.name.toLowerCase().includes(term.toLowerCase()) || user.surname.toLowerCase().includes(term.toLowerCase())
+          // (user) => user.name.toLowerCase().includes(term.toLowerCase()) || user.surname.toLowerCase().includes(term.toLowerCase())
           (user) =>
             user.name.toLowerCase().includes(term.toLowerCase()) ||
             user.surname.toLowerCase().includes(term.toLowerCase())
@@ -262,7 +258,7 @@ export const NavBar = () => {
               )}
             </div>
           </div>
-        </div>
+        {/* </div> */}
       </Container>
     </Navbar>
   );

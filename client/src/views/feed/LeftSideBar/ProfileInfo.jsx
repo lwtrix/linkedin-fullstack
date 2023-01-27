@@ -1,13 +1,14 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { getUserProfile } from "../../../redux/actions";
+// import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+// import { getUserProfile } from "../../../redux/actions";
 export const ProfileInfo = () => {
-  const { user } = useSelector((state) => state.user);
-  console.log(user);
-  const dispatch = useDispatch();
+  const [user, setUser] = useState({});
+  // const { user } = useSelector((state) => state.user);
+  // console.log(user);
+  // const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getUserProfile());
+    // dispatch(getUserProfile());
   }, []);
 
   return (
@@ -18,19 +19,16 @@ export const ProfileInfo = () => {
           alt="background"
         />
       </div>
-
       <div id="profileInfoBody">
         <div id="profileInfoPersonalImage">
-          {user && <img alt="profile" src={user.image} />}
+          <img alt="profile" src={user?.image} />
         </div>
         <h5>
-          {user && (
-            <a>
-              {user.name} {user.surname}
-            </a>
-          )}
+          <a>
+            {user?.name} {user?.surname}
+          </a>
         </h5>
-        {user && <p>{user.bio}</p>}
+        <p>{user?.bio}</p>
       </div>
     </div>
   );

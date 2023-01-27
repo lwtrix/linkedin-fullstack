@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./job-search.css";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { getUserProfile } from "../../../redux/actions";
+// import { useSelector, useDispatch } from "react-redux";
+// import { getUserProfile } from "../../../redux/actions";
 const JobSearch = () => {
-  const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const [user, setUser] = useState({});
+  // const { user } = useSelector((state) => state.user);
+  // const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getUserProfile());
+    // dispatch(getUserProfile());
   }, []);
   return (
     <div className="job-search">

@@ -13,18 +13,6 @@ export const YouDropDown = () => {
 
   useEffect(() => {
     // dispatch(getUserProfile());
-import "../css/navBar/youDropDown.css";
-import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserProfile } from "../../redux/actions";
-export const YouDropDown = () => {
-  const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUserProfile());
   }, []);
   return (
     <div>
@@ -98,3 +86,4 @@ export const YouDropDown = () => {
     </div>
   );
 };
+

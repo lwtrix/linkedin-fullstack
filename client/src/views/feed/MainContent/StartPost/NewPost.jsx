@@ -7,11 +7,11 @@ import { BiImage, BiDotsHorizontalRounded, BiWorld } from "react-icons/bi";
 import { HiDocumentText } from "react-icons/hi";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { Modal, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 export const NewPost = ({ user, handleClose, show }) => {
   const [image, setImage] = useState(null);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [newPost, setNewPost] = useState({
     text: "",
   });
@@ -69,10 +69,10 @@ export const NewPost = ({ user, handleClose, show }) => {
       options
     );
     handleClose();
-    dispatch({
-      type: "UPDATE_LATEST_POST",
-      payload: id,
-    });
+    // dispatch({
+    //   type: "UPDATE_LATEST_POST",
+    //   payload: id,
+    // });
   };
 
   return (

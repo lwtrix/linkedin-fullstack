@@ -1,9 +1,9 @@
 import React from "react";
 import "./follow.css";
 import { BsInfoSquareFill, BsArrowRightShort } from "react-icons/bs";
-import { Feed } from "./Feed";
+import { Feed } from "../../Feed.jsx";
 
-export const Follow = () => {
+ export const Follow = () => {
   return (
     <div className="follow">
       <div className="add">
@@ -38,3 +38,4 @@ export const Follow = () => {
     </div>
   );
 };
+

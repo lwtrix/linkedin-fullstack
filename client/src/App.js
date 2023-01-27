@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./views/NavBar/NavBar";
 import Profile from "./views/profile/Profile";
-import Feed from "./views/feed/Feed";
+import {Feed} from "./views/feed/Feed";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {

@@ -5,11 +5,11 @@ import JobSearch from "./MainContent/JobSearch";
 import { ProfileTop } from "./MainContent/ProfileTop/ProfileTop";
 import { StartPost } from "./MainContent/StartPost";
 import UserPost from "./MainContent/UserPost";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 export const MainContent = () => {
   const [posts, setPosts] = useState([]);
-  const { latestPost: latestPostId } = useSelector((state) => state.user);
+  // const { latestPost: latestPostId } = useSelector((state) => state.user);
   const [latestPost, setLatestPost] = useState(null);
 
   const getRandomPosts = (arr, num) => {
@@ -55,8 +55,8 @@ export const MainContent = () => {
   }, []);
 
   useEffect(() => {
-    getLatestPost(latestPostId);
-  }, [latestPostId]);
+    getLatestPost();
+  }, []);
 
   return (
     <div className="main-content">

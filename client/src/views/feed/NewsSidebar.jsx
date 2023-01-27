@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Advertising } from "./NewsSideBar/Advertising/Advertising";
 import { Follow } from "./NewsSideBar/Follow/Follow";
 import { Footer } from "./NewsSideBar/Footer/Footer";
-import { useState } from "react";
-import { useEffect } from "react";
+
 export const NewsSidebar = () => {
   const [classNotFixNewBar, setClassNotFixNewBar] = useState("");
   const [classNotFixNewBarFooter, setClassNotFixNewBarFooter] = useState("");
