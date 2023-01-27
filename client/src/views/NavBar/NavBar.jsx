@@ -25,6 +25,10 @@ import { useNavigate } from "react-router-dom";
 import { SearchResults } from "./Search/SearchResults";
 
 const NavBar = () => {
+import { useSelector, useDispatch } from "react-redux";
+import { getUserProfile } from "../../redux/actions";
+import { SearchResults } from "./Search/SearchResults";
+export const NavBar = () => {
   const [showSearch, setShowSearch] = useState(false);
   let [timeoutId, setTimeoutId] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
@@ -56,6 +60,9 @@ const NavBar = () => {
 
         const filteredUsers = users.filter(
           (user) => user.name.toLowerCase().includes(term.toLowerCase()) || user.surname.toLowerCase().includes(term.toLowerCase())
+          (user) =>
+            user.name.toLowerCase().includes(term.toLowerCase()) ||
+            user.surname.toLowerCase().includes(term.toLowerCase())
         );
         setSearchResults(filteredUsers);
       }, 500);
@@ -91,7 +98,7 @@ const NavBar = () => {
             <div>
               <input
                 type="search"
-                // onChange={(e) => fetchSearchResults(e.target.value)}
+
                 onInput={(e) =>
                   e.target.value.length
                     ? setShowSearch(true)
@@ -107,7 +114,7 @@ const NavBar = () => {
                   results={searchResults}
                   handleClickResult={handleClickResult}
                 />
-              ) : (null)
+              ) : null
             ) : null}
           </div>
         </div>
@@ -190,6 +197,7 @@ const NavBar = () => {
                   />
                 )}
               </div> */}
+              </div>
             </div>
             <div className="navBarIcons-text">
               <span>You</span>
@@ -259,6 +267,4 @@ const NavBar = () => {
     </Navbar>
   );
 };
-
-
 export default NavBar;
