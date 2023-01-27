@@ -156,7 +156,7 @@ export const NavBar = () => {
             <div className="navBarIcons-text">Notifications</div>
           </div>
           <div className="navBarIcons" id="youPositionRelative">
-            <div className="navBarIcons-icon imageContainer mt-2">
+            <div className="navBarIcons-icon imageContainer mt-2" >
               <div className="imageContainer">
                 {user && (
                   <img
@@ -172,7 +172,7 @@ export const NavBar = () => {
               </div>
             </div>
             <div className="navBarIcons-text">
-              <span>You</span>
+              <span>Me</span>
               <IoMdArrowDropdown
                 onClick={(e) => {
                   youDropDown !== "on"

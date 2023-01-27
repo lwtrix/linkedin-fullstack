@@ -5,12 +5,12 @@ import { ProfileInformation } from "./ProfileDetails/ProfileInformation";
 import { useParams } from "react-router-dom";
 
 export const ProfileDetails = ({}) => {
-  const params = useParams();
+  // const params = useParams();
   const [user, setUser] = useState(null);
 
   const getUser = async () => {
     const res = await fetch(
-      "http://localhost:3001/users/63ce67c5b87b8603d6e1fb31"
+      "http://localhost:3001/users/63ce6e52e2f071bfb332df12"
     );
     const data = await res.json();
     setUser(data);
@@ -25,7 +25,7 @@ export const ProfileDetails = ({}) => {
       {user?._id && (
         <>
           <ProfileInformation user={user} />
-          <ExperienceSection userId={user._id}/>
+          <ExperienceSection user={user} />
         </>
       )}
     </div>

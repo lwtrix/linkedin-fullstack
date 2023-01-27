@@ -49,6 +49,7 @@ postsRouter.post("/", async (req, res, next) => {
 });
 postsRouter.get("/", async (req, res, next) => {
   try {
+    console.log("sdsdfdsf");
     const posts = await Posts.find();
     if (posts) {
       res.send(posts);
@@ -56,6 +57,7 @@ postsRouter.get("/", async (req, res, next) => {
       res.status(404).json({ message: "No available posts" });
     }
   } catch (error) {
+    console.log(error);
     next(error);
   }
 });

@@ -17,45 +17,43 @@ export const Experience = ({ experience, canEdit, refreshExperiences }) => {
     "September",
     "October",
     "November",
-    "December",
+    "December"
   ];
 
   const [date, setDate] = useState({
     start: "",
-    end: "",
+    end: ""
   });
 
-  const [showEditModal, setShowEditModal] = useState(false)
-  const [user, setUser] = useState([])
-
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [user, setUser] = useState([]);
 
   const handleClose = () => setShowEditModal(false);
   const handleShow = () => setShowEditModal(true);
-  
+
   const formatDates = (start, end) => {
+    let formatStart = null;
+    let formatEnd = null;
 
-    let formatStart = null
-    let formatEnd = null
-
-    if(start) {
-    const startDate = new Date(start.slice(0, 10));
-    formatStart = `${monthNames[startDate.getUTCMonth()].slice(
-      0,
-      3
-    )} ${startDate.getUTCFullYear()}`;
+    if (start) {
+      const startDate = new Date(start.slice(0, 10));
+      formatStart = `${monthNames[startDate.getUTCMonth()].slice(
+        0,
+        3
+      )} ${startDate.getUTCFullYear()}`;
     }
 
-    if(end) {
-    const endDate = new Date(end.slice(0, 10));
-    formatEnd = `${monthNames[endDate.getUTCMonth()].slice(
-      0,
-      3
-    )} ${endDate.getUTCFullYear()}`;
+    if (end) {
+      const endDate = new Date(end.slice(0, 10));
+      formatEnd = `${monthNames[endDate.getUTCMonth()].slice(
+        0,
+        3
+      )} ${endDate.getUTCFullYear()}`;
     }
 
     setDate({
       start: formatStart,
-      end: formatEnd,
+      end: formatEnd
     });
   };
 
@@ -63,16 +61,19 @@ export const Experience = ({ experience, canEdit, refreshExperiences }) => {
 
   const handleDelete = async () => {
     const options = {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk4M2ZkMDQwNWJkYTAwMTUwOTE4NDEiLCJpYXQiOjE2NzA5MjIxOTIsImV4cCI6MTY3MjEzMTc5Mn0.HboxcDkCT7oe0t-xsSrEFfXdJbKvdPnGhJVNYl9t1A0",
-        },
-        method: 'DELETE'
-      };
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk4M2ZkMDQwNWJkYTAwMTUwOTE4NDEiLCJpYXQiOjE2NzA5MjIxOTIsImV4cCI6MTY3MjEzMTc5Mn0.HboxcDkCT7oe0t-xsSrEFfXdJbKvdPnGhJVNYl9t1A0"
+      },
+      method: "DELETE"
+    };
 
-      await fetch(`https://striveschool-api.herokuapp.com/api/profile/${user._id}/experiences/${experience._id}`, options)
-      refreshExperiences()
-  }
+    await fetch(
+      `https://striveschool-api.herokuapp.com/api/profile/${user._id}/experiences/${experience._id}`,
+      options
+    );
+    refreshExperiences();
+  };
 
   useEffect(() => {
     formatDates(experience.startDate, experience.endDate);
@@ -80,14 +81,13 @@ export const Experience = ({ experience, canEdit, refreshExperiences }) => {
 
   return (
     <div className="experience">
-      {console.log(date)}
       {canEdit === true ? (
         <div className="controls">
           <div className="icon-container">
-            <FiEdit2 className="icon" onClick={() => handleShow()}/>
+            <FiEdit2 className="icon" onClick={() => handleShow()} />
           </div>
           <div className="icon-container">
-            <FiTrash className="icon" onClick={(e) => handleDelete()}/>
+            <FiTrash className="icon" onClick={(e) => handleDelete()} />
           </div>
           {/* <EditExperienceModal experience={experience} handleClose={handleClose} show={showEditModal} refreshExperiences={refreshExperiences}/> */}
         </div>
@@ -100,7 +100,9 @@ export const Experience = ({ experience, canEdit, refreshExperiences }) => {
       <div className="experience-details">
         <span className="role">{experience.role}</span>
         <span className="company">{experience.company}</span>
-        <span className="date">{`${date.start ? date.start : ''} ${date.end ? '- ' +  date.end : ''}`}</span>
+        <span className="date">{`${date.start ? date.start : ""} ${
+          date.end ? "- " + date.end : ""
+        }`}</span>
         <span className="location">{experience.area}</span>
         <p className="description">{experience.description}</p>
       </div>

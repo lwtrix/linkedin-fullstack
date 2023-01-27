@@ -71,6 +71,7 @@
     width: 30px;
     border-radius: 15px;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .imageContainer img {

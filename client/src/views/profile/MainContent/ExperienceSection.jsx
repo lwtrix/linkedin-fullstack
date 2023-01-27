@@ -6,63 +6,39 @@ import { useNavigate } from "react-router-dom";
 import { Experience } from "./Experience/Experience";
 import { AddExperienceModal } from "./Experience/AddExperienceModal";
 
-export const ExperienceSection = ({ userId }) => {
+export const ExperienceSection = ({ user }) => {
   const navigate = useNavigate();
 
   const [experiences, setExperiences] = useState([]);
-  const [user, setUser] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const [isOtherUser, setIsOtherUser] = useState(false);
   const handleClose = () => setShowAddModal(false);
   const handleShow = () => setShowAddModal(true);
 
-  const getExperiences = async (id = user._id) => {
-    if (id === user._id) {
-      setIsOtherUser(false);
-    } else {
-      setIsOtherUser(true);
-    }
-    const options = {
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk4M2ZkMDQwNWJkYTAwMTUwOTE4NDEiLCJpYXQiOjE2NzA5MjIxOTIsImV4cCI6MTY3MjEzMTc5Mn0.HboxcDkCT7oe0t-xsSrEFfXdJbKvdPnGhJVNYl9t1A0",
-      },
-    };
-    if (user) {
-      const res = await fetch(
-        `https://striveschool-api.herokuapp.com/api/profile/${id}/experiences`,
-        options
-      );
-      const data = await res.json();
-
-      setExperiences(data);
-    }
+  const getExperiences = async () => {
+    const res = await fetch(`http://localhost:3001/experiences/${user?._id}`);
+    const data = await res.json();
+    setExperiences(data);
   };
 
   useEffect(() => {
-    if(user) {
-    getExperiences(userId);
-    }
-  }, [userId]);
+    getExperiences();
+  }, [experiences]);
 
   return (
     <div className="experience-section">
       <h3>Experience</h3>
-      {isOtherUser === false ? (
-        <div className="controls">
-          <div className="icon-container">
-            <AiOutlinePlus className="icon" onClick={handleShow} />
-          </div>
-          <div className="icon-container">
-            <FiEdit2
-              className="icon"
-              onClick={(e) => navigate("/profile/experiences")}
-            />
-          </div>
+      <div className="controls">
+        <div className="icon-container">
+          <AiOutlinePlus className="icon" onClick={handleShow} />
         </div>
-      ) : null}
-
+        <div className="icon-container">
+          <FiEdit2
+            className="icon"
+            onClick={(e) => navigate("/profile/experiences")}
+          />
+        </div>
+      </div>
       {experiences.map((exp) => (
         <Experience key={exp._id} experience={exp} />
       ))}
