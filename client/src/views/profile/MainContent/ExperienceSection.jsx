@@ -48,7 +48,6 @@ export const ExperienceSection = ({ userId }) => {
 
   return (
     <div className="experience-section">
-      {console.log(experiences)}
       <h3>Experience</h3>
       {isOtherUser === false ? (
         <div className="controls">

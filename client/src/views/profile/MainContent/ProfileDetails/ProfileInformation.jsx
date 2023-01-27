@@ -3,7 +3,6 @@ import "./profile-information.css";
 import { Col, Row, Modal, Button } from "react-bootstrap";
 import { FiEdit2 } from "react-icons/fi";
 import { ProffesionalBanners } from "./ProffesionalBanners";
-
 import { useState } from "react";
 import { EditProfileModal } from "./EditProfileModal";
 import EditUserProfileImage from "./EditUserProfileImage";
@@ -22,6 +21,7 @@ export const ProfileInformation = ({ user }) => {
 
   const handle_Close = () => setShow(false);
   const handle_Show = () => setShow(true);
+
 
   useEffect(() => {
     if (user) {
@@ -87,7 +87,11 @@ export const ProfileInformation = ({ user }) => {
           </Col>
         </Row>
         {isOtherUser === false ? <ProffesionalBanners /> : null}
-        <ProfileImageModal show={show} user={user} handleClose={handle_Close} />
+        <ProfileImageModal
+          show={show}
+          user={user}
+          handleClose={handle_Close}
+        />
         <EditProfileModal
           user={user}
           show={showEditModal}
