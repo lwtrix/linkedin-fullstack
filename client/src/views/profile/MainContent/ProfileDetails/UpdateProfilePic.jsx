@@ -16,6 +16,9 @@ export const UpdateProfilePic = ({ showModal, handle_Close, user }) => {
       requestOptions
     );
     let result = await response.json();
+    {
+      result && handle_Close();
+    }
   };
   return (
     <Modal
