@@ -35,6 +35,7 @@ usersRouter.post("/", async (req, res, next) => {
 usersRouter.get("/", async (req, res, next) => {
   try {
     const users = await UsersModel.find();
+    console.log(users);
     res.status(200).send(users);
   } catch (error) {
     next(error);

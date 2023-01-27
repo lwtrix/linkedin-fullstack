@@ -1,5 +1,18 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
+import "./youDropDown.css";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { getUserProfile } from "../../redux/actions";
+export const YouDropDown = () => {
+  const navigate = useNavigate();
+  // const { user } = useSelector((state) => state.user);
+  // const dispatch = useDispatch();
+
+  useEffect(() => {
+    // dispatch(getUserProfile());
 import "../css/navBar/youDropDown.css";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +32,11 @@ export const YouDropDown = () => {
         <div id="youDropDown-profiledescription">
           <div className="first-div">
             <div id="youDropDownProfile">
+              {/* {user && <img alt="profile" src={user.image} />} */}
+            </div>
+          </div>
+          <div className="second-div">
+            {/* <h5>
               {user && <img alt="profile" src={user.image} />}
             </div>
           </div>
@@ -30,7 +48,7 @@ export const YouDropDown = () => {
                 </a>
               )}
             </h5>
-            {user && <p>{user.bio}</p>}
+            {user && <p>{user.bio}</p>} */}
           </div>
         </div>
         <Button id="youDropDown-button" onClick={(e) => navigate("/profile")}>

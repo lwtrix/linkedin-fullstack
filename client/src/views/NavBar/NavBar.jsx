@@ -20,6 +20,11 @@ import { WorkDropDown } from "./WorkDropDown";
 import { useState, useEffect } from "react";
 import { Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+// import { useSelector, useDispatch } from "react-redux";
+// import { getUserProfile } from "../../redux/actions";
+import { SearchResults } from "./Search/SearchResults";
+
+const NavBar = () => {
 import { useSelector, useDispatch } from "react-redux";
 import { getUserProfile } from "../../redux/actions";
 import { SearchResults } from "./Search/SearchResults";
@@ -31,8 +36,8 @@ export const NavBar = () => {
   const [youDropDown, setyouDropDown] = useState("off");
   const [workDropDown, setworkDropDown] = useState("off");
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  // const { user } = useSelector((state) => state.user);
+  // const dispatch = useDispatch();
 
   const fetchSearchResults = (term) => {
     if (timeoutId) {
@@ -54,6 +59,7 @@ export const NavBar = () => {
         const users = await res.json();
 
         const filteredUsers = users.filter(
+          (user) => user.name.toLowerCase().includes(term.toLowerCase()) || user.surname.toLowerCase().includes(term.toLowerCase())
           (user) =>
             user.name.toLowerCase().includes(term.toLowerCase()) ||
             user.surname.toLowerCase().includes(term.toLowerCase())
@@ -71,7 +77,7 @@ export const NavBar = () => {
   };
 
   useEffect(() => {
-    dispatch(getUserProfile());
+    // dispatch(getUserProfile());
   }, []);
 
   return (
@@ -92,7 +98,7 @@ export const NavBar = () => {
             <div>
               <input
                 type="search"
-                onChange={(e) => fetchSearchResults(e.target.value)}
+
                 onInput={(e) =>
                   e.target.value.length
                     ? setShowSearch(true)
@@ -178,7 +184,7 @@ export const NavBar = () => {
           </div>
           <div className="navBarIcons" id="youPositionRelative">
             <div className="navBarIcons-icon imageContainer mt-2">
-              <div className="imageContainer">
+              {/* <div className="imageContainer">
                 {user && (
                   <img
                     alt="profile"
@@ -190,6 +196,7 @@ export const NavBar = () => {
                     }}
                   />
                 )}
+              </div> */}
               </div>
             </div>
             <div className="navBarIcons-text">
@@ -260,3 +267,4 @@ export const NavBar = () => {
     </Navbar>
   );
 };
+export default NavBar;
