@@ -17,8 +17,15 @@ import likesRouter from "./api/likesRouter.js";
 
 const port = process.env.PORT;
 
+const whitelist = ['https://localhost:3000']
+
+const corsConfig = {
+  origin: [...whitelist],
+  optionsSuccessStatus: 200
+}
+
 const server = express();
-server.use(cors())
+server.use(cors(corsConfig))
 server.use(express.json());
 
 //**************************** ENDPOINTS **************************** */
