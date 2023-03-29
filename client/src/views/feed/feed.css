@@ -1,0 +1,38 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* @media screen and (max-width: 928px) {
+  .main-content {
+    width: 70vh;
+  }
+}
+ */
+
+@media screen and (max-width: 767px) {
+  #leftSideBarStyle {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 766px) {
+  .profile-top {
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgb(188, 186, 186);
+    background-color: white;
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (min-width: 766px) {
+  .profile-top {
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: white;
+    display: none;
+  }
+}

@@ -1,0 +1,207 @@
+#navBarLogo {
+    height: 40px;
+}
+
+#navBar {
+    padding: 0;
+    padding-inline: 1%;
+    background-color: white;
+    border-bottom: 0.5px solid rgb(98, 97, 97, 0.3);
+    position: sticky;
+    top: 0;
+    padding-bottom: 1px;
+    z-index: 1;
+}
+
+.navBarIcons {
+    display: flex;
+    flex-direction: column;
+    color: rgb(98, 97, 97);
+    font-weight: 400;
+    font-size: 16px;
+    align-items: center;
+    cursor: pointer;
+    flex-grow: 1;
+    padding-inline: 0;
+}
+
+.navBarIcons:hover {
+    color: black;
+}
+
+.navBarIcons-icon {
+    position: relative;
+}
+
+.navBarBadge {
+    position: absolute;
+    top: 10px;
+    right: -5px;
+    border-radius: 50%;
+    height: 14px;
+    width: 14px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 8px;
+}
+
+.navBarBadgeSpecific {
+    position: absolute;
+    top: 6px;
+    right: 18px;
+    border-radius: 50%;
+    height: 14px;
+    width: 14px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 8px;
+}
+
+.navBarIcons-icon a {
+    font-size: 25px;
+    color: rgb(98, 97, 97);
+}
+
+.navBarIcons-icon a:hover {
+    color: black;
+}
+
+.imageContainer {
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.imageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.navBarDisplayFlex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+}
+
+#navBarWorkRightSide {
+    border-left: solid rgb(188, 186, 186) 1px;
+    flex: content;
+}
+
+.flex1 {
+    display: flex;
+    padding-inline: 20px;
+    align-items: center;
+}
+
+#navBarTextOrange a {
+    color: rgb(173, 147, 3);
+    font-size: 16px;
+    position: relative;
+}
+
+#navBarTextOrange a:hover {
+    color: rgb(59, 50, 2);
+}
+
+#youPositionRelative {
+    position: relative;
+}
+
+#youDropdown {
+    position: absolute;
+    top: 70px;
+    right: 0px;
+    width: 300px;
+    background-color: white;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border: solid rgb(188, 186, 186) 1px;
+    overflow: hidden;
+}
+
+#workDropDown {
+    position: absolute;
+    right: -500px;
+    top: 62px;
+    width: 500px;
+    background-color: white;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border: solid rgb(188, 186, 186) 1px;
+    overflow: hidden;
+    padding: 30px;
+    transition-timing-function: ease-in;
+    overflow-y: scroll;
+    height: 89vh;
+    transition: 0.5s;
+    transform: translateX(-500px);
+}
+
+#navbar-search-bar {
+    display: flex;
+    background-color: rgb(232, 244, 255);
+    border-radius: 5px;
+    align-items: center;
+    gap: 20px;
+    padding: 5px;
+    padding-inline: 20px;
+    margin-left: 15px;
+    position: relative;
+}
+
+.marginRight10 {
+    margin-right: 10px;
+    width: 75px;
+}
+
+#navbar-search-bar input {
+    background-color: transparent;
+    flex-grow: 1;
+    border: solid transparent 0px;
+}
+
+#navbar-flex-icons-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+#no-outline:focus {
+    outline: none;
+}
+
+@media screen and (min-width: 1024px) {
+    #navbar-display-none {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    #navbar-search-bar {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 990px) {
+    #navbar-flex-icons-container {
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+        flex-grow: 1;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .navBarIcons-text {
+        display: none;
+    }
+}

@@ -2,9 +2,21 @@ import express, { json } from "express";
 import createHttpError from "http-errors";
 import Posts from "../models/posts.js";
 import UsersModel from "../models/users.js";
+import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 
-const loggedUser = process.env.LOGGED_USER;
+const loggedUser = '63ce67c5b87b8603d6e1fb31';
 const postsRouter = express.Router();
+
+const cloudUploader = multer({
+  storage: new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: "linkedin/posts",
+    },
+  }),
+}).single("image");
 
 postsRouter.post("/", async (req, res, next) => {
   try {
@@ -37,6 +49,7 @@ postsRouter.post("/", async (req, res, next) => {
 });
 postsRouter.get("/", async (req, res, next) => {
   try {
+    console.log("sdsdfdsf");
     const posts = await Posts.find();
     if (posts) {
       res.send(posts);
@@ -44,6 +57,7 @@ postsRouter.get("/", async (req, res, next) => {
       res.status(404).json({ message: "No available posts" });
     }
   } catch (error) {
+    console.log(error);
     next(error);
   }
 });
@@ -65,22 +79,16 @@ postsRouter.put("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const foundPost = await Posts.findById(id).populate("user");
+    const updatedPost = await Posts.findByIdAndUpdate(
+      id,
+      { ...req.body },
+      { new: true, runValidators: true }
+    );
 
-    if (foundPost.user._id.toString() === loggedUser) {
-      const updatedPost = await Posts.findByIdAndUpdate(
-        id,
-        { ...req.body },
-        { new: true, runValidators: true }
-      );
-
-      if (updatedPost) {
-        res.status(201).send(updatedPost);
-      } else {
-        next(createHttpError(401, `Error with updating post with id: ${id}`));
-      }
+    if (updatedPost) {
+      res.status(201).send(updatedPost);
     } else {
-      res.status(401).send({ message: "This post belongs to other user" });
+      next(createHttpError(401, `Error with updating post with id: ${id}`));
     }
   } catch (error) {
     next(error);
@@ -90,17 +98,33 @@ postsRouter.delete("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const foundPost = await Posts.findById(id).populate("user");
-    if (foundPost.user._id.toString() === loggedUser) {
-      const deleted = await Posts.findByIdAndDelete(id);
+    const deleted = await Posts.findByIdAndDelete(id);
 
-      if (deleted) {
-        res.status(200).send({ message: "Post deleted with success" });
-      } else {
-        next(createHttpError(401, `Error deleting post with id: ${id}`));
-      }
+    if (deleted) {
+      res.status(200).send({ message: "Post deleted with success" });
     } else {
-      res.status(401).send({ message: "This post belongs to other user" });
+      next(createHttpError(401, `Error deleting post with id: ${id}`));
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+postsRouter.post("/:id/upload/image", cloudUploader, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const url = req.file.path;
+    const updatedPost = await Posts.findByIdAndUpdate(
+      id,
+      { image: url },
+      { new: true }
+    );
+
+    if (updatedPost) {
+      res.send(updatedPost);
+    } else {
+      next(createHttpError(400, `Error with uploading image to post`));
     }
   } catch (error) {
     next(error);

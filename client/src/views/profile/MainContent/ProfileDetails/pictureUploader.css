@@ -1,0 +1,11 @@
+.pictureUploader{
+z-index: 2;
+position: absolute;
+
+top: 0;
+left:0;
+width: 200px;
+height: 200px;
+background-color: blueviolet;
+overflow: scroll;
+}

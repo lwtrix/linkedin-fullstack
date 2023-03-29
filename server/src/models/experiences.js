@@ -1,18 +1,16 @@
 import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
-
-const postsSchema = new Schema(
+const experiencesSchema = new Schema(
   {
-    category: { type: String, required: true },
+    role: { type: String, required: true },
+    company: { type: String, required: true },
+    startDate: { type: Date, required: true },
+    endDate: { type: Date },
     description: { type: String, required: true },
-    imageUrl: { type: String, required: false },
-    user: [{ type: Schema.Types.ObjectId, ref: "Users" }],
+    area: { type: String, required: true },
+    image: { type: String },
   },
-
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
-
-export default model("Posts", postsSchema);
+export default model("Experience", experiencesSchema);

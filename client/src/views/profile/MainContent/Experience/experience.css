@@ -1,0 +1,70 @@
+.experience {
+    display: flex;
+    align-items: flex-start;
+    margin: 5px 0;
+    border-bottom: 1px solid rgba(204, 204, 204, 0.329);
+    margin-top: 15px;
+    position: relative;
+}
+
+.experience .controls {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.experience .controls .icon-container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1px;
+    transition: .2s;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 22px;
+    color: rgb(73, 73, 73);
+}
+
+.experience .controls .icon-container:hover {
+    background-color: #ccc;
+}
+
+.experience .controls .icon-container:last-child:hover {
+    background-color: rgb(255, 214, 214);
+}
+
+.experience .controls .icon-container:last-child {
+    color: rgb(253, 71, 71);
+}
+
+.experience:last-child {
+    border: none;
+}
+
+.experience img {
+    width: 75px;
+}
+
+.experience .experience-details {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+.experience .experience-details .role {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.experience .experience-details .date,
+.experience .experience-details .location {
+    color: #777;
+}
+
+.experience .experience-details .description {
+    padding-top: 5px;
+}

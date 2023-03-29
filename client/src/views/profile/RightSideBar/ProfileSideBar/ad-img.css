@@ -1,0 +1,19 @@
+.ad-profile {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 15px;
+  width: 100%;
+  background-color: white;
+  border: solid rgb(212, 212, 212) 1px;
+}
+.ad-profile .ad-new-img {
+  text-align: center;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.ad-profile .ad-new-img img {
+  width: 35vh;
+  height: 35vh;
+  object-fit: cover;
+}

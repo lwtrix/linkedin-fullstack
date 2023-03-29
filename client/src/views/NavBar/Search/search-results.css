@@ -1,0 +1,81 @@
+.search-results {
+    position: absolute;
+    top: 50px;
+    width: 145%;
+    background-color: white;
+    border: 1px solid #ccc;
+    height: fit-content;
+    max-height: 350px;
+    overflow: auto;
+    left: 0;
+}
+
+.search-results::-webkit-scrollbar {
+    width: 12px;
+}
+
+.search-results::-webkit-scrollbar-track {
+    background-color: #ccc;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+    background-color: #777;
+    border-radius: 5px;
+    border: 3px solid #ccc;
+
+}
+
+.search-results .search-result {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 15px 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.search-results .search-result:hover {
+    background-color: #ccc;
+}
+
+.search-results .search-result .user-name {
+    font-weight: 600;
+    margin: 0;
+    margin-right: 2px;
+}
+
+.search-results .search-result .user-title {
+    margin: 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.search-results .search-result .user-name,
+.search-results .search-result .user-title {
+    width: 145px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+.search-results .search-result .img-container {
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    justify-self: flex-end;
+    position: absolute;
+    overflow: hidden;
+}
+
+.search-results .search-result .img-container .profile-img {
+    width: 115%;
+    height: auto;
+}
+

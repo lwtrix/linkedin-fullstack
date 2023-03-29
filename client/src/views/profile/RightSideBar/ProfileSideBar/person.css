@@ -1,0 +1,59 @@
+.person {
+  margin-bottom: 1.5vh;
+}
+
+.person-body {
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.person-body img {
+  width: 9vh;
+  height: 9vh;
+  border-radius: 50%;
+}
+
+.person-body a {
+  text-decoration: none;
+}
+
+.person-body p {
+  color: black;
+  margin: 0;
+  text-align: left;
+}
+
+.person-body .grey {
+  color: rgba(158, 158, 158, 0.836);
+  font-size: 0.8rem;
+}
+
+.person-body .section-btn {
+  margin-left: 2vh;
+}
+
+.person-body .section-btn .buttton {
+  margin-top: 1vh;
+}
+
+.person-body .section-btn button {
+  display: flex;
+  box-shadow: inset 0 0 0 1px rgb(75, 74, 74);
+  border: none;
+  color: gray;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.person-body .section-btn button:hover {
+  box-shadow: inset 0 0 0 2px rgb(75, 74, 74);
+  background-color: #ebebeb;
+}
+
+.person-body .section-btn .blue:hover {
+  color: rgb(0, 68, 255);
+  text-decoration: underline;
+}

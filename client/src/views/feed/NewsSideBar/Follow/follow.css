@@ -1,0 +1,49 @@
+.follow {
+  border-radius: 15px;
+  width: 100%;
+  padding: 1.5vh;
+  background-color: white;
+  border: solid rgb(188, 186, 186) 1px;
+}
+
+.follow .add {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.follow .add p {
+  color: rgb(80, 80, 80);
+}
+
+.follow .add .tag-i {
+  color: rgb(80, 80, 80);
+  cursor: pointer;
+}
+
+.follow .feed-section .recommendations {
+  margin-left: 1.5vh;
+  display: flex;
+  justify-content: left;
+}
+
+.follow .feed-section .recommendations a {
+  padding-left: 1px;
+  text-decoration: none;
+  color: gray;
+}
+
+.follow .feed-section .recommendations .arrow {
+  color: rgb(53, 53, 53);
+  font-size: 1.5rem;
+}
+
+.follow .feed-section .recommendations a:hover {
+  background-color: rgb(238, 237, 237);
+}
+
+@media screen and (max-width: 930px) {
+  .newsSideBar {
+    display: none !important;
+  }
+}
